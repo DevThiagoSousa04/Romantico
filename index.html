@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surpresa para Minha Princesa</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Container dos corações */
+.hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+/* Corações */
+.heart {
+    position: absolute; /* CORRIGIDO */
+    top: -50px;
+    font-size: 24px;
+    opacity: 0.8;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+
+header {
+    background: #cc0000;
+    padding: 20px;
+}
+
+h1 {
+    margin: 0;
+    color: #fff;
+}
+
+#slider {
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#slider img {
+    max-width: 100%;
+    max-height: 400px;
+    display: none;
+    object-fit: contain;
+}
+
+#slider img.active {
+    display: block;
+}
+
+#phrases {
+    margin: 20px auto;
+    max-width: 600px;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+#countdown {
+    font-size: 2em;
+    margin: 30px 0;
+    color: #990000;
+}
+
+footer {
+    margin: 40px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts"></div>
+
+<header>
+    <h1>Para Você, Minha neguinha 🐺</h1>
+</header>
+
+<section id="slider">
+    <img src="img/Foto1.jpg" class="active">
+    <img src="img/foto2.jpg">
+    <img src="img/foto3.jpg">
+</section>
+
+<section id="phrases">
+    <p>"Cada momento com você é um presente. Eu Te amo minha princesa!"</p>
+    <p>"Você é a razão de todos os meus sorrisos mais sinceros"</p>
+    <p>"Juntos somos mais fortes, juntos somos mais felizes minha nega."</p>
+</section>
+
+<div id="countdown">Carregando contagem...</div>
+
+<footer>
+    <p>Feito com carinho pelo protagonista da sua vida 😂🤣</p>
+</footer>
+
+<script>
+
+/* SLIDER */
+let currentIndex = 0;
+const slides = document.querySelectorAll('#slider img');
+
+function showSlide(index) {
+    slides.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+    });
+}
+
+setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+}, 3000);
+
+
+/* CONTAGEM REGRESSIVA */
+function updateCountdown() {
+    const now = new Date();
+    const target = new Date(now.getFullYear(), 2, 13);
+
+    if (now > target) {
+        target.setFullYear(target.getFullYear() + 1);
+    }
+
+    const diff = target - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('countdown').textContent =
+        `Faltam ${days}d ${hours}h ${minutes}m ${seconds}s até 13 de março`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+
+/* CORAÇÕES CAINDO */
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (3 + Math.random() * 4) + 's';
+
+    document.querySelector('.hearts').appendChild(heart);
+
+    setTimeout(() => heart.remove(), 9000);
+}
+
+/* Velocidade ajustada (mais leve e bonito) */
+setInterval(createHeart, 300);
+
+</script>
+
+</body>
+</html>
